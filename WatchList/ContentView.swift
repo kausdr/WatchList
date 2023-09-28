@@ -9,8 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State var pageToggle: Bool = false
+    
     var body: some View {
-        Explore()
+        Home(pageToggle: $pageToggle)
     }
 }
 

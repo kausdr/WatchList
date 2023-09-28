@@ -10,7 +10,10 @@ import SDWebImageSwiftUI
 
 struct Explore: View {
     
-    @ObservedObject var movieAPI = MovieAPI()
+    @StateObject var movieAPI = MovieAPI()
+    @EnvironmentObject var listasModel: ListasModel
+    
+    @Binding var pageToggle: Bool
     
     let columns = [
         GridItem(.flexible()),
@@ -27,14 +30,15 @@ struct Explore: View {
                             
                             ForEach(series) { serie in
                                 NavigationLink {
-                                    SerieDescription(listasModel: ListasModel(myList: [], watchedList: []), serieId: serie.id)
+                                    SerieDescription(pageToggle: $pageToggle, serieId: serie.id)
                                 } label: {
                                     WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
                                         .resizable()
                                         .aspectRatio(contentMode: .fit)
-                                        .frame(width: 120)
+                                        .frame(width: 100)
                                         .cornerRadius(5)
                                 }
+                                .padding(.vertical, 10)
                             }
                         }
                     }
@@ -48,13 +52,14 @@ struct Explore: View {
         }
         .padding()
         .onAppear(){
-                        movieAPI.fetchData()
+            movieAPI.fetchData()
         }
+        
     }
 }
 
-struct Explore_Previews: PreviewProvider {
-    static var previews: some View {
-        Explore()
-    }
-}
+//struct Explore_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Explore(pageToggle: .constant(false))
+//    }
+//}
