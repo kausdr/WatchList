@@ -25,7 +25,9 @@ class MovieAPI: ObservableObject {
 //                    print(json)
                     let serie = try JSONDecoder().decode(SerieList.self, from: data)
 //                    print(serie.results.count)
-                    self.series = serie.results
+                    DispatchQueue.main.async {
+                        self.series = serie.results
+                    }
                     
                     
                 } catch (let error){
