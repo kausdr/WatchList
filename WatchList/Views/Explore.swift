@@ -51,7 +51,6 @@ struct Explore: View {
                 }
             }
         }
-        .padding()
         .onAppear(){
             movieAPI.fetchData()
         }
