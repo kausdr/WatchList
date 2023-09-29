@@ -13,6 +13,7 @@ struct Explore: View {
     @StateObject var movieAPI = MovieAPI()
     @EnvironmentObject var listasModel: ListasModel
     
+    @Binding var serieId: Int
     @Binding var pageToggle: Bool
     
     let columns = [

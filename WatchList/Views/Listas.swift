@@ -26,7 +26,6 @@ struct Listas: View {
                 .pickerStyle(.segmented)
                 .onChange(of: listPagesSelection) { newValue in
                     pageToggle.toggle()
-                    print(pageToggle)
                 }
                 
                 if pageToggle {
@@ -94,6 +93,7 @@ struct AssistidoLista: View {
     @EnvironmentObject var listasModel: ListasModel
     
     @Binding var pageToggle: Bool
+    
     
     let columns = [
         GridItem(.flexible()),

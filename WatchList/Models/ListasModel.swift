@@ -19,22 +19,30 @@ import SwiftUI
 
              myList.append(item)
          
-//         myList.append(item)
-         
-         print(myList)
-         print("-------")
+         print("ADICIONOU")
     }
     
-    func removeList() {
-        //logica de remover da lista
+     func removeList(item: Serie) {
+         myList.removeAll{
+             $0.id == item.id
+             
+         }
+         
+         print("REMOVEU")
     }
     
      func addWatched(item: Serie) {
         watchedList.append(item)
-        print(watchedList)
+         
+         print("ADICIONOU")
     }
     
-    func removeWatched() {
-        //logica de remover da lista de assistidos
+     func removeWatched(item: Serie) {
+        watchedList.removeAll{
+            $0.id == item.id
+            
+        }
+         
+         print("REMOVEU")
     }
 }

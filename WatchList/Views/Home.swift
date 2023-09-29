@@ -11,10 +11,11 @@ struct Home: View {
     
     @Binding var pageToggle: Bool
     @StateObject var listasModel = ListasModel()
+    @Binding var serieId: Int
     
     var body: some View {
         TabView {
-            Explore(pageToggle: $pageToggle)
+            Explore(serieId: $serieId, pageToggle: $pageToggle)
                 .tabItem {
                     Label("Explorar", systemImage: "magnifyingglass")
                 }

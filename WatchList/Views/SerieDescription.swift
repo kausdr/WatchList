@@ -13,6 +13,8 @@ struct SerieDescription: View {
     @StateObject var movieAPI = MovieAPI()
     @EnvironmentObject var listasModel: ListasModel
     @Binding var pageToggle: Bool
+    @State var mudarBotaoMyList: Bool = true
+    @State var mudarBotaoAssistidos: Bool = true
     
     var serieId: Int
     
@@ -32,51 +34,62 @@ struct SerieDescription: View {
                                 .padding(.vertical, 10)
                             HStack(spacing: 15){
                                 Button{
-                                    
+                                    mudarBotaoMyList.toggle()
                                     if !listasModel.myList.contains(where: {$0.id == serieId }) {
                                         listasModel.addList(item: serie)
                                     }
+                                    else {
+                                        listasModel.removeList(item: serie)
+                                    }
+                                    
                                     
                                 } label: {
                                     HStack {
-                                        Image(systemName: "plus.app")
+                                        
+                                        Image(systemName: mudarBotaoMyList ? "plus.app" : "checkmark.square.fill")
                                             .font(.system(size: 25))
                                         Text("Minha Lista")
                                         
+                                        
                                     }
-                                    .frame(maxWidth:.infinity)
+                                    .frame(maxWidth:.infinity, maxHeight: 72)
+                                    .multilineTextAlignment(.center)
+                                    .minimumScaleFactor(0.05)
                                     .fontWeight(.bold)
                                     .foregroundColor(.white)
                                     .padding(.vertical, 16)
                                     .background{
                                         RoundedRectangle(cornerRadius: 14)
-                                            .foregroundColor(Color(uiColor: .lightGray))
+                                            .foregroundColor(mudarBotaoMyList ? Color(uiColor: .lightGray) : Color(uiColor: .systemGreen))
                                     }
                                     
                                     
                                 }
                                 
-                                
                                 Button{
-                                    
+                                    mudarBotaoAssistidos.toggle()
                                     if !listasModel.watchedList.contains(where: {$0.id == serieId }) {
                                         listasModel.addWatched(item: serie)
+                                    }
+                                    else {
+                                        listasModel.removeWatched(item: serie)
                                     }
                                     
                                 } label: {
                                     HStack {
-                                        Image(systemName: "plus.app")
+                                        Image(systemName: mudarBotaoAssistidos ? "plus.app" : "checkmark.square.fill")
                                             .font(.system(size: 25))
                                         Text("Assistido")
                                         
                                     }
-                                    .frame(maxWidth:.infinity)
+                                    .frame(maxWidth:.infinity, maxHeight: 72)
                                     .fontWeight(.bold)
+                                    .clipped()
                                     .foregroundColor(.white)
                                     .padding(.vertical, 16)
                                     .background{
                                         RoundedRectangle(cornerRadius: 14)
-                                            .foregroundColor(Color(uiColor: .lightGray))
+                                            .foregroundColor(mudarBotaoAssistidos ? Color(uiColor: .lightGray) : Color(uiColor: .systemGreen))
                                     }
                                 }
                             }
@@ -112,27 +125,43 @@ struct SerieDescription: View {
         .frame(maxWidth: .infinity)
         .onAppear(){
             movieAPI.fetchData()
+            
+            if listasModel.myList.contains(where: {$0.id == serieId }) {
+                mudarBotaoMyList = false
+            }
+            
+            if listasModel.watchedList.contains(where: {$0.id == serieId }) {
+                mudarBotaoAssistidos = false
+            }
         }
+        
+        
         
     }
     
     
-//    func shareToInstagramStories(image: UIImage) {
-//
-//        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
-//
-//        if UIApplication.shared.canOpenURL(instagramURL) {
-//            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
-//            UIPasteboard.general.setItems(paste)
-//            UIApplication.shared.open(instagramURL)
-//        }
-//
-//    }
-//
-//
-//    @IBAction func shareButton(_ sender Any) {
-//        shareToInstagramStories(image: UIImage(named: "blabla") ?? UIImage())
-//    }
+    
+    
+    
+    
+    
+    
+    //    func shareToInstagramStories(image: UIImage) {
+    //
+    //        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
+    //
+    //        if UIApplication.shared.canOpenURL(instagramURL) {
+    //            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
+    //            UIPasteboard.general.setItems(paste)
+    //            UIApplication.shared.open(instagramURL)
+    //        }
+    //
+    //    }
+    //
+    //
+    //    @IBAction func shareButton(_ sender Any) {
+    //        shareToInstagramStories(image: UIImage(named: "blabla") ?? UIImage())
+    //    }
 }
 
 //struct SerieDescription_Previews: PreviewProvider {
