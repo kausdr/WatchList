@@ -11,7 +11,7 @@ struct SerieList: Decodable {
     let results: [Serie]
 }
 
-struct Serie: Identifiable, Decodable {
+struct Serie: Identifiable, Decodable{
     let id: Int
     let name: String
     let overview: String?

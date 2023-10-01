@@ -9,10 +9,13 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct Listas: View {
+    @StateObject var movieAPI: MovieAPI
     @EnvironmentObject var listasModel: ListasModel
     @State var listPagesSelection = "Assistido"
     var listPagesNames = ["Minha Lista", "Assistido"]
     @Binding var pageToggle: Bool
+    
+    @Binding var searchText: String
     
     var body: some View {
         NavigationStack{
@@ -29,10 +32,10 @@ struct Listas: View {
                 }
                 
                 if pageToggle {
-                    MinhaLista(pageToggle: $pageToggle)
+                    MinhaLista(movieAPI: movieAPI, pageToggle: $pageToggle, searchText: $searchText)
                 }
                 else {
-                    AssistidoLista(pageToggle: $pageToggle)
+                    AssistidoLista(movieAPI: movieAPI, pageToggle: $pageToggle, searchText: $searchText)
                 }
             }
         }
@@ -45,7 +48,7 @@ struct Listas: View {
 
 // --------------------------- Conteúdo Minha Lista ---------------------------
 struct MinhaLista: View {
-    @StateObject var movieAPI = MovieAPI()
+    @StateObject var movieAPI: MovieAPI
     
     @EnvironmentObject var listasModel: ListasModel
     
@@ -56,6 +59,8 @@ struct MinhaLista: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    @Binding var searchText: String
     
     var body: some View {
         ScrollView {
@@ -63,7 +68,11 @@ struct MinhaLista: View {
                 LazyVGrid(columns: columns, spacing: 5) {
                     ForEach(listasModel.myList) { serie in
                         NavigationLink {
-                            SerieDescription(pageToggle: $pageToggle, serieId: serie.id)
+                            SerieDescription(movieAPI: movieAPI, pageToggle: $pageToggle, serieId: serie.id, searchText: $searchText)
+                                .onAppear {
+//                                    movieAPI.fetchDataSearch(query: serie.name)
+                                    movieAPI.fetchData()
+                                }
                         } label: {
                             WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
                                 .resizable()
@@ -78,17 +87,13 @@ struct MinhaLista: View {
             }
             .padding(.horizontal, 16)
         }
-        .onAppear(){
-            movieAPI.fetchData()
-            print(listasModel.myList)
-        }
     }
 }
 
 // --------------------------- Conteúdo Assistido ---------------------------
 struct AssistidoLista: View {
     
-    @StateObject var movieAPI = MovieAPI()
+    @StateObject var movieAPI: MovieAPI
     
     @EnvironmentObject var listasModel: ListasModel
     
@@ -101,13 +106,18 @@ struct AssistidoLista: View {
         GridItem(.flexible())
     ]
     
+    @Binding var searchText: String
+    
     var body: some View {
         ScrollView {
             VStack {
                 LazyVGrid(columns: columns, spacing: 5) {
                     ForEach(listasModel.watchedList) { serie in
                         NavigationLink {
-                            SerieDescription(pageToggle: $pageToggle, serieId: serie.id)
+                            SerieDescription(movieAPI: movieAPI, pageToggle: $pageToggle, serieId: serie.id, searchText: $searchText)
+                                .onAppear {
+                                    movieAPI.fetchDataSearch(query: serie.name)
+                                }
                         } label: {
                             WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
                                 .resizable()
@@ -121,10 +131,6 @@ struct AssistidoLista: View {
                 
             }
             .padding(.horizontal, 16)
-        }
-        .onAppear(){
-            movieAPI.fetchData()
-            print(listasModel.watchedList)
         }
     }
 }

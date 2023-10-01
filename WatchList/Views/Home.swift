@@ -8,21 +8,22 @@
 import SwiftUI
 
 struct Home: View {
-    
+    @StateObject var movieAPI: MovieAPI
     @Binding var pageToggle: Bool
     @StateObject var listasModel = ListasModel()
     @Binding var serieId: Int
+    @Binding var searchText: String
     
     var body: some View {
         TabView {
-            Explore(serieId: $serieId, pageToggle: $pageToggle)
+            Explore(movieAPI: movieAPI, serieId: $serieId, pageToggle: $pageToggle, searchText: $searchText)
                 .tabItem {
-                    Label("Explorar", systemImage: "magnifyingglass")
+                    Label("Explore", systemImage: "magnifyingglass")
                 }
             
-            Listas(pageToggle: $pageToggle)
+            Listas(movieAPI: movieAPI, pageToggle: $pageToggle, searchText: $searchText)
                 .tabItem {
-                    Label("Listas", systemImage: "film.stack")
+                    Label("Lists", systemImage: "film.stack")
                 }
         }
         .environmentObject(listasModel)
