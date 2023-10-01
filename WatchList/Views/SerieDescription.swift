@@ -7,6 +7,37 @@
 
 import SwiftUI
 import SDWebImageSwiftUI
+import PhotosUI
+
+class ImageSaver: NSObject {
+    func writeToPhotoAlbum(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
+    }
+    
+    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        print("Saved!")
+    }
+    
+    
+    func shareToInstagramStories(image: UIImage) {
+        
+        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
+        
+        if UIApplication.shared.canOpenURL(instagramURL) {
+            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
+            UIPasteboard.general.setItems(paste)
+            UIApplication.shared.open(instagramURL)
+        }
+        else {
+            print("deu erro aqui ó")
+        }
+        
+    }
+    
+    @IBAction func shareButton(_ sender: Any) {
+            shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
+        }
+}
 
 struct SerieDescription: View {
     
@@ -15,6 +46,10 @@ struct SerieDescription: View {
     @Binding var pageToggle: Bool
     @State var mudarBotaoMyList: Bool = true
     @State var mudarBotaoAssistidos: Bool = true
+    
+    var imgView: some View {
+        return createViewImage()
+    }
     
     var serieId: Int
     
@@ -30,7 +65,7 @@ struct SerieDescription: View {
                         
                         VStack (alignment: .leading, spacing: 10){
                             Text(serie.name)
-                                .font(.headline)
+                                .font(.title)
                                 .padding(.vertical, 10)
                             HStack(spacing: 15){
                                 Button{
@@ -95,12 +130,38 @@ struct SerieDescription: View {
                             }
                             .frame(maxWidth: .infinity)
                             
-                            HStack (spacing: 42){
-                                Text("Show people you're watching")
+                            HStack{
+                                Text("Show people you're watching it")
                                     .font(.body)
                                     .fontWeight(.bold)
                                     .foregroundColor(Color(uiColor: .systemGray2))
-                                Image(systemName: "chevron")
+                                Spacer()
+                                Button {
+                                    print("compartilhando")
+                                    let renderer = ImageRenderer (content: imgView)
+                                    
+                                    if let image = renderer.uiImage {
+                                        let imageSaver = ImageSaver()
+                                        imageSaver.writeToPhotoAlbum(image: image)
+                                    }
+                                    
+                                    
+                                    
+//                                    imageSaver.shareButton((Any).self)
+//                                    shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
+                                } label: {
+                                    Image(systemName: "square.and.arrow.up")
+                                        .foregroundColor(Color(uiColor: .systemBlue))
+                                        .font(.system(size: 25))
+                                        .fontWeight(.bold)
+                                }
+                                
+//                                NavigationLink{
+//                                    RenderView(serieId: serie.id)
+//                                } label: {
+//                                    Text("Ir")
+//                                }
+                                
                             }
                             .padding(.vertical, 24)
                             
@@ -117,7 +178,6 @@ struct SerieDescription: View {
                 }
                 else {
                     Text("Fetching data...")
-                        .background(.green)
                 }
                 
             }
@@ -146,22 +206,38 @@ struct SerieDescription: View {
     
     
     
-    //    func shareToInstagramStories(image: UIImage) {
-    //
-    //        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
-    //
-    //        if UIApplication.shared.canOpenURL(instagramURL) {
-    //            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
-    //            UIPasteboard.general.setItems(paste)
-    //            UIApplication.shared.open(instagramURL)
-    //        }
-    //
-    //    }
-    //
-    //
-    //    @IBAction func shareButton(_ sender Any) {
-    //        shareToInstagramStories(image: UIImage(named: "blabla") ?? UIImage())
-    //    }
+    
+    
+    
+    
+//    -------------------- VIEW TO BE RENDERED --------------------
+    
+    private func createViewImage() -> some View{
+        VStack (spacing: 10){
+            if let serie = movieAPI.series?.first(where: { $0.id == serieId }) {
+                Text("I'm watching to")
+                    .font(.body)
+                    .fontWeight(.bold)
+                    WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 200)
+                        .cornerRadius(5)
+                Text("by WatchList")
+                    .font(.caption)
+            }
+            else {
+                Text("Fetching data...")
+            }
+            
+        }
+        .frame(maxWidth: 240, maxHeight: 415)
+        .background(Color(uiColor: .blue))
+        .cornerRadius(10)
+        .onAppear {
+            movieAPI.fetchData()
+        }
+    }
 }
 
 //struct SerieDescription_Previews: PreviewProvider {

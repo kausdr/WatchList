@@ -45,7 +45,7 @@ struct Listas: View {
 
 // --------------------------- Conteúdo Minha Lista ---------------------------
 struct MinhaLista: View {
-    @ObservedObject var movieAPI = MovieAPI()
+    @StateObject var movieAPI = MovieAPI()
     
     @EnvironmentObject var listasModel: ListasModel
     
@@ -88,7 +88,7 @@ struct MinhaLista: View {
 // --------------------------- Conteúdo Assistido ---------------------------
 struct AssistidoLista: View {
     
-    @ObservedObject var movieAPI = MovieAPI()
+    @StateObject var movieAPI = MovieAPI()
     
     @EnvironmentObject var listasModel: ListasModel
     

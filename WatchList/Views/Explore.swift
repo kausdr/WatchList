@@ -45,7 +45,6 @@ struct Explore: View {
                     }
                     else {
                         Text("Fetching data...")
-                            .foregroundColor(.white)
                     }
                     
                 }
