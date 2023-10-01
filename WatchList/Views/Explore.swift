@@ -16,6 +16,8 @@ struct Explore: View {
     @Binding var serieId: Int
     @Binding var pageToggle: Bool
     
+    @State var searchText = ""
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -50,6 +52,10 @@ struct Explore: View {
                 }
             }
         }
+        .onChange(of: searchText){ newSearch in
+        }
+        .searchable(text: $searchText)
+        
         .onAppear(){
             movieAPI.fetchData()
         }

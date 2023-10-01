@@ -19,24 +19,24 @@ class ImageSaver: NSObject {
     }
     
     
-    func shareToInstagramStories(image: UIImage) {
-        
-        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
-        
-        if UIApplication.shared.canOpenURL(instagramURL) {
-            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
-            UIPasteboard.general.setItems(paste)
-            UIApplication.shared.open(instagramURL)
-        }
-        else {
-            print("deu erro aqui ó")
-        }
-        
-    }
-    
-    @IBAction func shareButton(_ sender: Any) {
-            shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
-        }
+//    func shareToInstagramStories(image: UIImage) {
+//        
+//        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
+//        
+//        if UIApplication.shared.canOpenURL(instagramURL) {
+//            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
+//            UIPasteboard.general.setItems(paste)
+//            UIApplication.shared.open(instagramURL)
+//        }
+//        else {
+//            print("deu erro aqui ó")
+//        }
+//        
+//    }
+//    
+//    @IBAction func shareButton(_ sender: Any) {
+//        shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
+//    }
 }
 
 struct SerieDescription: View {
@@ -48,10 +48,12 @@ struct SerieDescription: View {
     @State var mudarBotaoAssistidos: Bool = true
     
     var imgView: some View {
-        return createViewImage()
+            return createViewImage()
     }
     
     var serieId: Int
+//    @State private var imgOk = false
+    
     
     var body: some View {
         VStack{
@@ -130,40 +132,43 @@ struct SerieDescription: View {
                             }
                             .frame(maxWidth: .infinity)
                             
-                            HStack{
-                                Text("Show people you're watching it")
-                                    .font(.body)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(Color(uiColor: .systemGray2))
-                                Spacer()
-                                Button {
-                                    print("compartilhando")
-                                    let renderer = ImageRenderer (content: imgView)
-                                    
-                                    if let image = renderer.uiImage {
-                                        let imageSaver = ImageSaver()
-                                        imageSaver.writeToPhotoAlbum(image: image)
-                                    }
-                                    
-                                    
-                                    
-//                                    imageSaver.shareButton((Any).self)
-//                                    shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
-                                } label: {
-                                    Image(systemName: "square.and.arrow.up")
-                                        .foregroundColor(Color(uiColor: .systemBlue))
-                                        .font(.system(size: 25))
-                                        .fontWeight(.bold)
-                                }
-                                
-//                                NavigationLink{
-//                                    RenderView(serieId: serie.id)
+//                            HStack{
+//                                Text("Show people you're watching it")
+//                                    .font(.body)
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(Color(uiColor: .systemGray2))
+//                                Spacer()
+//                                Button {
+//                                    print("compartilhando")
+//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//                                        let renderer = ImageRenderer (content: imgView)
+//                                        
+//                                        if let image = renderer.uiImage {
+//                                            let imageSaver = ImageSaver()
+//                                            imageSaver.writeToPhotoAlbum(image: image)
+//                                        }
+//                                        print("renderizou")
+//                                    }
+//                                    
+//                                    
+//                                    
+//                                    //                                    imageSaver.shareButton((Any).self)
+//                                    //                                    shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
 //                                } label: {
-//                                    Text("Ir")
+//                                    Image(systemName: "square.and.arrow.up")
+//                                        .foregroundColor(Color(uiColor: .systemBlue))
+//                                        .font(.system(size: 25))
+//                                        .fontWeight(.bold)
 //                                }
-                                
-                            }
-                            .padding(.vertical, 24)
+//                                
+//                                //                                NavigationLink{
+//                                //                                    RenderView(serieId: serie.id)
+//                                //                                } label: {
+//                                //                                    Text("Ir")
+//                                //                                }
+//                                
+//                            }
+//                            .padding(.vertical, 24)
                             
                             VStack (alignment: .leading, spacing: 10){
                                 Text("Description")
@@ -204,25 +209,32 @@ struct SerieDescription: View {
     
     
     
+
     
     
     
     
+
     
     
-//    -------------------- VIEW TO BE RENDERED --------------------
+    
+    //    -------------------- VIEW TO BE RENDERED --------------------
     
     private func createViewImage() -> some View{
-        VStack (spacing: 10){
+        return VStack (spacing: 10){
             if let serie = movieAPI.series?.first(where: { $0.id == serieId }) {
                 Text("I'm watching to")
                     .font(.body)
                     .fontWeight(.bold)
-                    WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 200)
-                        .cornerRadius(5)
+                WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 200)
+                    .cornerRadius(5)
+                    .onAppear {
+                        print("carregou")
+                    }
+                
                 Text("by WatchList")
                     .font(.caption)
             }
