@@ -10,6 +10,7 @@
 		5A1411012AC45BD7005E5F4D /* SerieDescription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1411002AC45BD7005E5F4D /* SerieDescription.swift */; };
 		5A1411032AC4935F005E5F4D /* Listas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1411022AC4935F005E5F4D /* Listas.swift */; };
 		5A1411072AC49C11005E5F4D /* ListasModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1411062AC49C11005E5F4D /* ListasModel.swift */; };
+		5A14110C2AC611F7005E5F4D /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A14110B2AC611F7005E5F4D /* Home.swift */; };
 		5A83CE9C2AC2FE3D00530F62 /* WatchListApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A83CE9B2AC2FE3D00530F62 /* WatchListApp.swift */; };
 		5A83CE9E2AC2FE3D00530F62 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A83CE9D2AC2FE3D00530F62 /* ContentView.swift */; };
 		5A83CEA02AC2FE3E00530F62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5A83CE9F2AC2FE3E00530F62 /* Assets.xcassets */; };
@@ -18,12 +19,14 @@
 		5A83CEAD2AC3008B00530F62 /* MovieAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A83CEAC2AC3008B00530F62 /* MovieAPI.swift */; };
 		5A83CEB32AC31B8200530F62 /* Serie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A83CEB22AC31B8200530F62 /* Serie.swift */; };
 		5A83CEB62AC350CD00530F62 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5A83CEB52AC350CD00530F62 /* SDWebImageSwiftUI */; };
+		5ABC58D12AC9915600A35299 /* RenderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC58D02AC9915600A35299 /* RenderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5A1411002AC45BD7005E5F4D /* SerieDescription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerieDescription.swift; sourceTree = "<group>"; };
 		5A1411022AC4935F005E5F4D /* Listas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Listas.swift; sourceTree = "<group>"; };
 		5A1411062AC49C11005E5F4D /* ListasModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListasModel.swift; sourceTree = "<group>"; };
+		5A14110B2AC611F7005E5F4D /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		5A83CE982AC2FE3D00530F62 /* WatchList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A83CE9B2AC2FE3D00530F62 /* WatchListApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchListApp.swift; sourceTree = "<group>"; };
 		5A83CE9D2AC2FE3D00530F62 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +35,8 @@
 		5A83CEA92AC2FE6C00530F62 /* Explore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Explore.swift; sourceTree = "<group>"; };
 		5A83CEAC2AC3008B00530F62 /* MovieAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieAPI.swift; sourceTree = "<group>"; };
 		5A83CEB22AC31B8200530F62 /* Serie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Serie.swift; sourceTree = "<group>"; };
+		5ABC58D02AC9915600A35299 /* RenderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenderView.swift; sourceTree = "<group>"; };
+		5AD734412AC74A64007AF999 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +70,11 @@
 		5A83CE9A2AC2FE3D00530F62 /* WatchList */ = {
 			isa = PBXGroup;
 			children = (
+				5AD734412AC74A64007AF999 /* Info.plist */,
 				5A83CE9B2AC2FE3D00530F62 /* WatchListApp.swift */,
 				5A83CE9D2AC2FE3D00530F62 /* ContentView.swift */,
 				5A83CEAF2AC319CB00530F62 /* Views */,
-				5A83CEAB2AC2FE7600530F62 /* Explore */,
+				5A83CEAE2AC319B600530F62 /* Models */,
 				5A83CE9F2AC2FE3E00530F62 /* Assets.xcassets */,
 				5A83CEA12AC2FE3E00530F62 /* Preview Content */,
 			);
@@ -81,14 +87,6 @@
 				5A83CEA22AC2FE3E00530F62 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		5A83CEAB2AC2FE7600530F62 /* Explore */ = {
-			isa = PBXGroup;
-			children = (
-				5A83CEAE2AC319B600530F62 /* Models */,
-			);
-			path = Explore;
 			sourceTree = "<group>";
 		};
 		5A83CEAE2AC319B600530F62 /* Models */ = {
@@ -104,9 +102,11 @@
 		5A83CEAF2AC319CB00530F62 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5A14110B2AC611F7005E5F4D /* Home.swift */,
 				5A83CEA92AC2FE6C00530F62 /* Explore.swift */,
 				5A1411002AC45BD7005E5F4D /* SerieDescription.swift */,
 				5A1411022AC4935F005E5F4D /* Listas.swift */,
+				5ABC58D02AC9915600A35299 /* RenderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -191,9 +191,11 @@
 				5A83CE9E2AC2FE3D00530F62 /* ContentView.swift in Sources */,
 				5A83CE9C2AC2FE3D00530F62 /* WatchListApp.swift in Sources */,
 				5A83CEAA2AC2FE6C00530F62 /* Explore.swift in Sources */,
+				5A14110C2AC611F7005E5F4D /* Home.swift in Sources */,
 				5A83CEAD2AC3008B00530F62 /* MovieAPI.swift in Sources */,
 				5A1411072AC49C11005E5F4D /* ListasModel.swift in Sources */,
 				5A1411012AC45BD7005E5F4D /* SerieDescription.swift in Sources */,
+				5ABC58D12AC9915600A35299 /* RenderView.swift in Sources */,
 				5A83CEB32AC31B8200530F62 /* Serie.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +328,8 @@
 				DEVELOPMENT_TEAM = N5DJJCAK38;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchList/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "It want to save an image to your photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -355,6 +359,8 @@
 				DEVELOPMENT_TEAM = N5DJJCAK38;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WatchList/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "It want to save an image to your photo library.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
