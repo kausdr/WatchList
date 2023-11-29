@@ -23,10 +23,7 @@ class MovieAPI: ObservableObject {
             
             if let data = data {
                 do {
-//                    let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-//                    print(json)
                     let serie = try JSONDecoder().decode(SerieList.self, from: data)
-//                    print(serie.results.count)
                     DispatchQueue.main.async {
                         
                         if let loadedSeries = self.series {

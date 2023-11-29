@@ -9,51 +9,16 @@ import SwiftUI
 import SDWebImageSwiftUI
 import PhotosUI
 
-//class ImageSaver: NSObject {
-//    func writeToPhotoAlbum(image: UIImage) {
-//        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
-//    }
-//    
-//    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
-//        print("Saved!")
-//    }
-//    
-//    
-////    func shareToInstagramStories(image: UIImage) {
-////        
-////        guard let instagramURL = URL(string: "instagram-stories://share") else {return}
-////        
-////        if UIApplication.shared.canOpenURL(instagramURL) {
-////            let paste = [["com.instagram.sharedSticker.backgroundImage": image as Any]]
-////            UIPasteboard.general.setItems(paste)
-////            UIApplication.shared.open(instagramURL)
-////        }
-////        else {
-////            print("deu erro aqui ó")
-////        }
-////        
-////    }
-////    
-////    @IBAction func shareButton(_ sender: Any) {
-////        shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
-////    }
-//}
 
 struct SerieDescription: View {
-    
     @StateObject var movieAPI: MovieAPI
     @EnvironmentObject var listasModel: ListasModel
     @Binding var pageToggle: Bool
     @State var mudarBotaoMyList: Bool = true
     @State var mudarBotaoAssistidos: Bool = true
     
-    
-//    var imgView: some View {
-//            return createViewImage()
-//    }
-    
+
     var serieId: Int
-//    @State private var imgOk = false
     
     @Binding var searchText: String
     
@@ -77,6 +42,7 @@ struct SerieDescription: View {
                                     mudarBotaoMyList.toggle()
                                     if !listasModel.myList.contains(where: {$0.id == serieId }) {
                                         listasModel.addList(item: serie)
+                                        SerieList.saveInUserDefaultsMyList(results: listasModel.myList)
                                     }
                                     else {
                                         listasModel.removeList(item: serie)
@@ -88,7 +54,7 @@ struct SerieDescription: View {
                                         
                                         Image(systemName: mudarBotaoMyList ? "plus.app" : "checkmark.square.fill")
                                             .font(.system(size: 25))
-                                        Text("Minha Lista")
+                                        Text("My List")
                                         
                                         
                                     }
@@ -110,6 +76,7 @@ struct SerieDescription: View {
                                     mudarBotaoAssistidos.toggle()
                                     if !listasModel.watchedList.contains(where: {$0.id == serieId }) {
                                         listasModel.addWatched(item: serie)
+                                        SerieList.saveInUserDefaultsWatchedList(results: listasModel.watchedList)
                                     }
                                     else {
                                         listasModel.removeWatched(item: serie)
@@ -119,7 +86,7 @@ struct SerieDescription: View {
                                     HStack {
                                         Image(systemName: mudarBotaoAssistidos ? "plus.app" : "checkmark.square.fill")
                                             .font(.system(size: 25))
-                                        Text("Assistido")
+                                        Text("Watched")
                                         
                                     }
                                     .frame(maxWidth:.infinity, maxHeight: 72)
@@ -134,44 +101,6 @@ struct SerieDescription: View {
                                 }
                             }
                             .frame(maxWidth: .infinity)
-                            
-//                            HStack{
-//                                Text("Show people you're watching it")
-//                                    .font(.body)
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(Color(uiColor: .systemGray2))
-//                                Spacer()
-//                                Button {
-//                                    print("compartilhando")
-//                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                                        let renderer = ImageRenderer (content: imgView)
-//                                        
-//                                        if let image = renderer.uiImage {
-//                                            let imageSaver = ImageSaver()
-//                                            imageSaver.writeToPhotoAlbum(image: image)
-//                                        }
-//                                        print("renderizou")
-//                                    }
-//                                    
-//                                    
-//                                    
-//                                    //                                    imageSaver.shareButton((Any).self)
-//                                    //                                    shareToInstagramStories(image: UIImage(named: "imgTeste") ?? UIImage())
-//                                } label: {
-//                                    Image(systemName: "square.and.arrow.up")
-//                                        .foregroundColor(Color(uiColor: .systemBlue))
-//                                        .font(.system(size: 25))
-//                                        .fontWeight(.bold)
-//                                }
-//                                
-//                                //                                NavigationLink{
-//                                //                                    RenderView(serieId: serie.id)
-//                                //                                } label: {
-//                                //                                    Text("Ir")
-//                                //                                }
-//                                
-//                            }
-//                            .padding(.vertical, 24)
                             
                             VStack (alignment: .leading, spacing: 10){
                                 Text("Description")
@@ -194,7 +123,6 @@ struct SerieDescription: View {
         .frame(maxWidth: .infinity)
         .onAppear(){
             movieAPI.fetchData()
-//            movieAPI.fetchDataSearch(query: searchText)
             
             if listasModel.myList.contains(where: {$0.id == serieId }) {
                 mudarBotaoMyList = false
@@ -213,53 +141,6 @@ struct SerieDescription: View {
         
         
     }
-    
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-
-    
-    
-    
-    //    -------------------- VIEW TO BE RENDERED --------------------
-    
-//    private func createViewImage() -> some View{
-//        return VStack (spacing: 10){
-//            if let serie = movieAPI.series?.first(where: { $0.id == serieId }) {
-//                Text("I'm watching to")
-//                    .font(.body)
-//                    .fontWeight(.bold)
-//                WebImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(serie.poster_path ?? "")"))
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 200)
-//                    .cornerRadius(5)
-//                    .onAppear {
-//                        print("carregou")
-//                    }
-//                
-//                Text("by WatchList")
-//                    .font(.caption)
-//            }
-//            else {
-//                Text("Fetching data...")
-//            }
-//            
-//        }
-//        .frame(maxWidth: 240, maxHeight: 415)
-//        .background(Color(uiColor: .blue))
-//        .cornerRadius(10)
-//        .onAppear {
-//            movieAPI.fetchData()
-//        }
-//    }
 }
 
 //struct SerieDescription_Previews: PreviewProvider {

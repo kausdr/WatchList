@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    
     @StateObject var movieAPI = MovieAPI()
     @State var pageToggle: Bool = false
     @State var mudarBotaoMyList: Bool = true

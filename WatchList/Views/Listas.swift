@@ -11,8 +11,8 @@ import SDWebImageSwiftUI
 struct Listas: View {
     @StateObject var movieAPI: MovieAPI
     @EnvironmentObject var listasModel: ListasModel
-    @State var listPagesSelection = "Assistido"
-    var listPagesNames = ["Minha Lista", "Assistido"]
+    @State var listPagesSelection = "Watched"
+    var listPagesNames = ["My List", "Watched"]
     @Binding var pageToggle: Bool
     
     @Binding var searchText: String
@@ -54,6 +54,8 @@ struct MinhaLista: View {
     
     @Binding var pageToggle: Bool
     
+    @State var seriesMyList = SerieList.getFromUserDefaultsMyList()
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible()),
@@ -66,11 +68,11 @@ struct MinhaLista: View {
         ScrollView {
             VStack {
                 LazyVGrid(columns: columns, spacing: 5) {
-                    ForEach(listasModel.myList) { serie in
+                    ForEach(Array(seriesMyList.enumerated().reversed()), id: \.element.id) { (index, serie) in
                         NavigationLink {
                             SerieDescription(movieAPI: movieAPI, pageToggle: $pageToggle, serieId: serie.id, searchText: $searchText)
                                 .onAppear {
-//                                    movieAPI.fetchDataSearch(query: serie.name)
+                                    movieAPI.fetchDataSearch(query: serie.name)
                                     movieAPI.fetchData()
                                 }
                         } label: {
@@ -99,6 +101,8 @@ struct AssistidoLista: View {
     
     @Binding var pageToggle: Bool
     
+    @State var seriesWatchedList = SerieList.getFromUserDefaultsWatchedList()
+    
     
     let columns = [
         GridItem(.flexible()),
@@ -112,7 +116,7 @@ struct AssistidoLista: View {
         ScrollView {
             VStack {
                 LazyVGrid(columns: columns, spacing: 5) {
-                    ForEach(listasModel.watchedList) { serie in
+                    ForEach(Array(seriesWatchedList.enumerated().reversed()), id: \.element.id) { (index, serie) in
                         NavigationLink {
                             SerieDescription(movieAPI: movieAPI, pageToggle: $pageToggle, serieId: serie.id, searchText: $searchText)
                                 .onAppear {
@@ -128,8 +132,8 @@ struct AssistidoLista: View {
                         .padding(.vertical, 10)
                     }
                 }
-                
             }
+
             .padding(.horizontal, 16)
         }
     }
