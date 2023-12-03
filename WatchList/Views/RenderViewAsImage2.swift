@@ -60,7 +60,7 @@ struct RenderView: View {
         VStack(spacing: 10) {
             imageView
 
-            Button("Save ittttttt") {
+            Button("Save image") {
                 isImageSaved = true
             }
             
