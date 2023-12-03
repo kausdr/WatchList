@@ -74,7 +74,7 @@ struct Explore: View {
                         
                     }
                     else {
-                        Text("Fetching data...")
+                        Text("Loading...")
                     }
                     
                 }

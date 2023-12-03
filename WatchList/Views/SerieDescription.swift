@@ -46,6 +46,7 @@ struct SerieDescription: View {
                                     }
                                     else {
                                         listasModel.removeList(item: serie)
+                                        SerieList.saveInUserDefaultsMyList(results: listasModel.myList)
                                     }
                                     
                                     
@@ -80,6 +81,7 @@ struct SerieDescription: View {
                                     }
                                     else {
                                         listasModel.removeWatched(item: serie)
+                                        SerieList.saveInUserDefaultsWatchedList(results: listasModel.watchedList)
                                     }
                                     
                                 } label: {
@@ -103,6 +105,12 @@ struct SerieDescription: View {
                             .frame(maxWidth: .infinity)
                             
                             VStack (alignment: .leading, spacing: 10){
+                                NavigationLink {
+                                    RenderView(serieId: serieId)
+                                    
+                                } label: {
+                                    Text("Share")
+                                }
                                 Text("Description")
                                     .font(.headline)
                                     .foregroundColor(Color(uiColor: .systemGray2))
@@ -114,7 +122,7 @@ struct SerieDescription: View {
                     }
                 }
                 else {
-                    Text("Fetching data...")
+                    Text("Loading...")
                 }
                 
             }

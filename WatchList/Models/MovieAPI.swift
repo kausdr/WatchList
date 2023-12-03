@@ -11,7 +11,7 @@ class MovieAPI: ObservableObject {
     @Published var series: [Serie]?
     @Published var currentPage = 1
     
-    func fetchData() {
+    func fetchData(completion: (()->())? = nil) {
         
         let url = URL(string: "https://api.themoviedb.org/3/discover/tv?sort_by=vote_count.desc&api_key=5c308328e2231e55206210b20a696644&page=\(currentPage)")
         
@@ -33,6 +33,8 @@ class MovieAPI: ObservableObject {
                         else {
                             self.series = serie.results
                         }
+                        
+                        completion?()
                     }
                     
                     
